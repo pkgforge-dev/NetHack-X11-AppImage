@@ -10,6 +10,7 @@ export ADD_HOOKS="self-updater.bg.hook"
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
 export DESKTOP=/usr/share/applications/nethack-x11.desktop
 export STARTUPWMCLASS=
+export ALWAYS_SOFTWARE=1
 
 # Deploy dependencies
 quick-sharun /usr/bin/nethack
