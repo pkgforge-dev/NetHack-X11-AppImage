@@ -62,13 +62,13 @@ prepare() {
   setconf -a nethackrc OPTIONS 'windowtype:X11'
 
   # Add two new lines to nethack.sh
-  sed -i \
-    's|export HACKDIR|NETHACKOPTIONS=\nexport NETHACKOPTIONS\nexport HACKDIR|' \
-    sys/unix/nethack.sh
+#  sed -i \
+#    's|export HACKDIR|NETHACKOPTIONS=\nexport NETHACKOPTIONS\nexport HACKDIR|' \
+#    sys/unix/nethack.sh
 
   # Set HACKDIR and HACK
-  setconf sys/unix/nethack.sh HACKDIR '/var/games/nethack/'
-  setconf sys/unix/nethack.sh HACK '/usr/lib/nethack/nethack'
+#  setconf sys/unix/nethack.sh HACKDIR '/var/games/nethack/'
+#  setconf sys/unix/nethack.sh HACK '/usr/lib/nethack/nethack'
 
   # Set NETHACKOPTIONS
   setconf sys/unix/nethack.sh NETHACKOPTIONS '@/etc/nethackrc'
