@@ -117,6 +117,5 @@ package() {
   install -Dm644 win/X11/nethack.rc "$pkgdir/usr/share/doc/$pkgname/nethackrc"
   install -Dm644 doc/Guidebook.txt "$pkgdir/usr/share/doc/$pkgname/Guidebook.txt"
   install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
-  install -Dm644 win/X11/nh_icon.xpm "$pkgdir/usr/share/pixmaps/$pkgname.xpm"
   install -g games -Dm644 sys/unix/sysconf "$pkgdir/usr/games/nethack/sysconf"
 }
