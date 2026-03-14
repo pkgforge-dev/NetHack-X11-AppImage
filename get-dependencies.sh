@@ -20,6 +20,7 @@ mkdir -p ./AppDir/bin
 mv -v /etc/nethackrc ./AppDir/bin
 mv -v /usr/lib/nethack/* ./AppDir/bin
 mv -v /var/games/nethack/* ./AppDir/bin
+mv -v /usr/games/nethack/* ./AppDir/bin
 # if you also have to make nightly releases check for DEVEL_RELEASE = 1
 #
 # if [ "${DEVEL_RELEASE-}" = 1 ]; then
