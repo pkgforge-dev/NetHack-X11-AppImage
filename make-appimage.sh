@@ -13,7 +13,7 @@ export STARTUPWMCLASS=
 export ALWAYS_SOFTWARE=1
 
 # Deploy dependencies
-quick-sharun /usr/bin/nethack
+quick-sharun ./AppDir/bin/nethack
 
 # Additional changes can be done in between here
 
