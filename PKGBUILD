@@ -113,9 +113,7 @@ package() {
   chown root:games $pkgdir/usr/lib/nethack/nethack
 
   install -Dm644 nethackrc "$pkgdir/etc/nethackrc"
-  install -Dm644 dat/license "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
   install -Dm644 win/X11/nethack.rc "$pkgdir/usr/share/doc/$pkgname/nethackrc"
-  install -Dm644 doc/Guidebook.txt "$pkgdir/usr/share/doc/$pkgname/Guidebook.txt"
   install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
   install -g games -Dm644 sys/unix/sysconf "$pkgdir/usr/games/nethack/sysconf"
 }
