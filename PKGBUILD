@@ -79,22 +79,14 @@ prepare() {
   sed 's/!NetHack.tile_file/NetHack.tile_file/' -i win/X11/NetHack.ad
 
   # From community/nethack
-#  sed -e '/^HACKDIR/ s|/games/lib/\$(GAME)dir|/var/games/nethack/|' \
-#      -e '/^SHELLDIR/ s|/games|/usr/bin|' \
-#      -e '/^VARDIRPERM/ s|0755|0775|' \
-#      -e '/^VARFILEPERM/ s|0600|0664|' \
-#      -e '/^GAMEPERM/ s|0755|02755|' \
-#      -e '/CURSES_GRAPHICS/ s|^|#|' \
-#      -e 's|\(DSYSCF_FILE=\)\\"[^"]*\\"|\1\\"/var/games/nethack/sysconf\\"|' \
-#      -e 's|\(DHACKDIR=\)\\"[^"]*\\"|\1\\"/var/games/nethack/\\"|' -i sys/unix/hints/linux
-  sed -e '/^HACKDIR/ s|/games/lib/\$(GAME)dir|.|' \
-      -e '/^SHELLDIR/ s|/games|.|' \
+  sed -e '/^HACKDIR/ s|/games/lib/\$(GAME)dir|/var/games/nethack/|' \
+      -e '/^SHELLDIR/ s|/games|/usr/bin|' \
       -e '/^VARDIRPERM/ s|0755|0775|' \
       -e '/^VARFILEPERM/ s|0600|0664|' \
       -e '/^GAMEPERM/ s|0755|02755|' \
       -e '/CURSES_GRAPHICS/ s|^|#|' \
-      -e 's|\(DSYSCF_FILE=\)\\"[^"]*\\"|\1\\"./sysconf\\"|' \
-      -e 's|\(DHACKDIR=\)\\"[^"]*\\"|\1\\".\\"|' -i sys/unix/hints/linux
+      -e 's|\(DSYSCF_FILE=\)\\"[^"]*\\"|\1\\"/var/games/nethack/sysconf\\"|' \
+      -e 's|\(DHACKDIR=\)\\"[^"]*\\"|\1\\"/var/games/nethack/\\"|' -i sys/unix/hints/linux
 
   sed -e "/^MANDIR\s*=/s|/usr/man/man6|$pkgdir/usr/share/man/man6|" -i sys/unix/Makefile.doc
 }
