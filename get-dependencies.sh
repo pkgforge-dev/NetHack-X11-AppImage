@@ -22,11 +22,11 @@ wget https://github.com/NetHack/NetHack/archive/refs/tags/NetHack-${VERSION}_Rel
 tar -xvf ./*.tar.gz
 rm -f ./*.tar.gz
 cd NetHack-NetHack-${VERSION}_Released
-path -NP1 -i ../nethack-x11.patch
+patch -NP1 -i ../nethack-x11.patch
 cd sys/unix
 ./setup.sh
 cd ../..
 make fetch-lua
-path -NP1 -i ../2ndpatch.patch
+patch -NP1 -i ../2ndpatch.patch
 make -j$(nproc)
 mv -v src/nethack dat/* ../AppDir/bin
