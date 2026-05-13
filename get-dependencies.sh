@@ -16,4 +16,5 @@ get-debloated-pkgs --add-common --prefer-nano
 # make-aur-package
 
 # If the application needs to be manually built that has to be done down here
-wget https://nethack.org/download/5.0.0/nethack-500-src.tgz
+VERSION=5.0.0
+wget https://github.com/NetHack/NetHack/archive/refs/tags/NetHack-${VERSION}_Released.tar.gz
