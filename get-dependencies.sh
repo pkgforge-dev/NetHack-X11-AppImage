@@ -28,5 +28,5 @@ cd sys/unix
 cd ../..
 make fetch-lua
 patch -Np1 -i ../2ndpatch.patch
-make -j1
+make -j1 # Multi-threaded builds fail
 mv -v src/nethack dat/* ../AppDir/bin
