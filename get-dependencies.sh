@@ -18,3 +18,12 @@ get-debloated-pkgs --add-common --prefer-nano
 # If the application needs to be manually built that has to be done down here
 VERSION=5.0.0
 wget https://github.com/NetHack/NetHack/archive/refs/tags/NetHack-${VERSION}_Released.tar.gz
+tar -xvf ./*.tar.gz
+rm -f ./*.tar.gz
+cd NetHack-NetHack-${VERSION}_Released
+path -NP1 -i nethack-x11.patch
+cd sys/unix
+./setup.sh
+cd ../..
+make fetch-lua
+make -j
