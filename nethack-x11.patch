@@ -1,92 +1,79 @@
-diff -ru '--color=auto' nethack-3.6.2.orig/include/config.h nethack-3.6.2/include/config.h
---- nethack-3.6.2.orig/include/config.h	2019-10-14 15:43:52.234943122 -0400
-+++ nethack-3.6.2/include/config.h	2019-10-14 16:26:55.257097257 -0400
-@@ -46,7 +46,7 @@
- #define TTY_GRAPHICS /* good old tty based graphics */
+diff --git a/include/config.h b/include/config.h
+index e266ad0..cf7f9e5 100644
+--- a/include/config.h
++++ b/include/config.h
+@@ -56,7 +56,7 @@
+ #define TTY_GRAPHICS /* good old tty-based graphics */
  #endif
  /* #define CURSES_GRAPHICS *//* Curses interface - Karl Garrison*/
 -/* #define X11_GRAPHICS */   /* X11 interface */
 +#define X11_GRAPHICS         /* X11 interface */
  /* #define QT_GRAPHICS */    /* Qt interface */
- /* #define GNOME_GRAPHICS */ /* Gnome interface */
  /* #define MSWIN_GRAPHICS */ /* Windows NT, CE, Graphics */
-@@ -116,7 +116,7 @@
- #endif
  
+@@ -131,7 +131,7 @@
+ 
+ #ifdef TTY_GRAPHICS
  #ifndef DEFAULT_WINDOW_SYS
 -#define DEFAULT_WINDOW_SYS "tty"
 +#define DEFAULT_WINDOW_SYS "X11"
  #endif
+ #endif
  
- #ifdef CURSES_GRAPHICS
-@@ -134,7 +134,7 @@
-  * would allow:
-  *  xpmtoppm <x11tiles.xpm | pnmscale 1.25 | ppmquant 90 >x11tiles_big.xpm
+@@ -158,7 +158,7 @@
+  *  xpmtoppm <x11tiles.xpm | pnmscale 1.25 | ppmquant 90 | \
+  *      ppmtoxpm >x11tiles_big.xpm
   */
 -/* # define USE_XPM */ /* Disable if you do not have the XPM library */
-+#define USE_XPM /* Disable if you do not have the XPM library */
++# define USE_XPM  /* Disable if you do not have the XPM library */
  #ifdef USE_XPM
+ #ifndef GRAPHIC_TOMBSTONE
  #define GRAPHIC_TOMBSTONE /* Use graphical tombstone (rip.xpm) */
- #endif
-@@ -263,11 +263,11 @@
- 
- #if defined(UNIX) && !defined(ZLIB_COMP) && !defined(COMPRESS)
- /* path and file name extension for compression program */
--#define COMPRESS "/usr/bin/compress" /* Lempel-Ziv compression */
--#define COMPRESS_EXTENSION ".Z"      /* compress's extension */
-+/* #define COMPRESS "/usr/bin/compress" */ /* Lempel-Ziv compression */
-+/* #define COMPRESS_EXTENSION ".Z" */      /* compress's extension */
- /* An example of one alternative you might want to use: */
--/* #define COMPRESS "/usr/local/bin/gzip" */ /* FSF gzip compression */
--/* #define COMPRESS_EXTENSION ".gz" */       /* normal gzip extension */
-+#define COMPRESS "/usr/bin/gzip" /* FSF gzip compression */
-+#define COMPRESS_EXTENSION ".gz"       /* normal gzip extension */
- #endif
- 
- #ifndef COMPRESS
-@@ -311,7 +311,7 @@
+@@ -403,7 +403,7 @@
   *      a tar-like file, thus making a neater installation.  See *conf.h
   *      for detailed configuration.
   */
 -/* #define DLB */ /* not supported on all platforms */
-+#define DLB /* not supported on all platforms */
++#define DLB  /* not supported on all platforms */
  
  /*
   *      Defining REPRODUCIBLE_BUILD causes 'util/makedefs -v' to construct
-@@ -352,7 +352,7 @@
+@@ -444,7 +444,7 @@
   * otherwise it will be the current directory.
   */
  #ifndef HACKDIR
 -#define HACKDIR "/usr/games/lib/nethackdir"
-+#define HACKDIR "/var/games/nethack"
++#define HACKDIR "APPDIR/bin"
  #endif
  
  /*
-@@ -362,7 +362,7 @@
+@@ -454,7 +454,7 @@
   * since the user might create files in a directory of his choice.
   * Of course SECURE is meaningful only if HACKDIR is defined.
   */
 -/* #define SECURE */ /* do setuid(getuid()) after chdir() */
-+#define SECURE /* do setuid(getuid()) after chdir() */
++#define SECURE  /* do setuid(getuid()) after chdir() */
  
  /*
   * If it is desirable to limit the number of people that can play Hack
-diff -ru '--color=auto' nethack-3.6.2.orig/include/unixconf.h nethack-3.6.2/include/unixconf.h
---- nethack-3.6.2.orig/include/unixconf.h	2019-10-14 15:43:52.238276427 -0400
-+++ nethack-3.6.2/include/unixconf.h	2019-10-14 16:26:55.257097257 -0400
-@@ -133,7 +133,7 @@
+diff --git a/include/unixconf.h b/include/unixconf.h
+index e7ee915..ef84495 100644
+--- a/include/unixconf.h
++++ b/include/unixconf.h
+@@ -112,7 +112,7 @@
   * "extra output" method is used, but not all systems provide access to
   * a fine-grained timer.
   */
 -/* #define TIMED_DELAY */ /* usleep() */
 +#define TIMED_DELAY /* usleep() */
  #endif
- #if defined(MACOSX) && !defined(TIMED_DELAY)
+ #if defined(MACOS) && !defined(TIMED_DELAY)
  #define TIMED_DELAY
-diff -ru '--color=auto' nethack-3.6.2.orig/src/invent.c nethack-3.6.2/src/invent.c
---- nethack-3.6.2.orig/src/invent.c	2019-10-14 15:43:52.238276427 -0400
-+++ nethack-3.6.2/src/invent.c	2019-10-14 16:26:55.257097257 -0400
-@@ -3483,6 +3483,7 @@
+diff --git a/src/invent.c b/src/invent.c
+index 4468595..bf4b00e 100644
+--- a/src/invent.c
++++ b/src/invent.c
+@@ -4296,6 +4296,7 @@ look_here(
                  picked_some ? "Other things" : "Things",
                  Blind ? "you feel" : "are");
          putstr(tmpwin, 0, buf);
@@ -94,11 +81,12 @@ diff -ru '--color=auto' nethack-3.6.2.orig/src/invent.c nethack-3.6.2/src/invent
          for (; otmp; otmp = otmp->nexthere) {
              if (otmp->otyp == CORPSE && will_feel_cockatrice(otmp, FALSE)) {
                  felt_cockatrice = TRUE;
-diff -ru '--color=auto' nethack-3.6.2.orig/sys/unix/Makefile.src nethack-3.6.2/sys/unix/Makefile.src
---- nethack-3.6.2.orig/sys/unix/Makefile.src	2019-10-14 15:43:52.244943040 -0400
-+++ nethack-3.6.2/sys/unix/Makefile.src	2019-10-14 16:27:31.580193016 -0400
-@@ -267,8 +267,8 @@
- #WINBEOBJ = winbe.o NHWindow.o NHMenuWindow.o NHMapWindow.o tile.o
+diff --git a/sys/unix/Makefile.src b/sys/unix/Makefile.src
+index 863fa09..3788d3e 100644
+--- a/sys/unix/Makefile.src
++++ b/sys/unix/Makefile.src
+@@ -318,8 +318,8 @@ WINBEOBJ =
+ #	$(TARGETPFX)tile.o
  #
  #
 -#WINSRC = $(WINTTYSRC)
@@ -108,7 +96,7 @@ diff -ru '--color=auto' nethack-3.6.2.orig/sys/unix/Makefile.src nethack-3.6.2/s
  #
  # Curses - Karl Garrison, Tangles
  #WINSRC = $(WINCURSESSRC)
-@@ -287,14 +287,14 @@
+@@ -338,14 +338,14 @@ WINBEOBJ =
  # WINTTYLIB = -ltermcap
  # WINTTYLIB = -lcurses
  # WINTTYLIB = -lcurses16
@@ -125,7 +113,7 @@ diff -ru '--color=auto' nethack-3.6.2.orig/sys/unix/Makefile.src nethack-3.6.2/s
  # WINX11LIB = -lXaw -lXmu -lXpm -lXext -lXt -lX11 -lSM -lICE -lm # BSD/OS 2.0
  #
  #
-@@ -327,7 +327,7 @@
+@@ -372,7 +372,7 @@ WINCURSESLIB = -lncurses
  # same as above, for XCurses
  #WINCURSESLIB = -L/usr/local/lib/pdcurses -lXCurses -lXawM -lXmu -lXext -lXt -lX11
  #
@@ -134,36 +122,16 @@ diff -ru '--color=auto' nethack-3.6.2.orig/sys/unix/Makefile.src nethack-3.6.2/s
  #
  # For Curses
  #WINLIB = $(WINCURSESLIB)
-diff -ru '--color=auto' nethack-3.6.2.orig/sys/unix/Makefile.top nethack-3.6.2/sys/unix/Makefile.top
---- nethack-3.6.2.orig/sys/unix/Makefile.top	2019-10-14 15:43:52.244943040 -0400
-+++ nethack-3.6.2/sys/unix/Makefile.top	2019-10-14 16:26:55.257097257 -0400
-@@ -22,16 +22,16 @@
- #PREFIX	 = /usr
- GAME     = nethack
- # GAME     = nethack.prg
--#GAMEUID  = games
--#GAMEGRP  = bin
-+GAMEUID  = root
-+GAMEGRP  = games
- 
- # Permissions - some places use setgid instead of setuid, for instance
- # See also the option "SECURE" in include/config.h
- #GAMEPERM = 04755
--FILEPERM = 0644
-+FILEPERM = 0664
- # VARFILEPERM = 0644
- EXEPERM  = 0755
--DIRPERM  = 0755
-+DIRPERM  = 0775
- # VARDIRPERM = 0755
- 
- # VARDIR may also appear in unixconf.h as "VAR_PLAYGROUND" else HACKDIR
-@@ -49,7 +49,7 @@
- # per discussion in Install.X11 and Install.Qt
- #VARDATND = 
+diff --git a/sys/unix/Makefile.top b/sys/unix/Makefile.top
+index 5ecca32..cff10d6 100644
+--- a/sys/unix/Makefile.top
++++ b/sys/unix/Makefile.top
+@@ -61,7 +61,7 @@ DIRPERM  = 0755
+ #	X11 without Qt:
  # VARDATND = x11tiles NetHack.ad pet_mark.xbm pilemark.xbm
+ #	X11 with GRAPHIC_TOMBSTONE (requires 'xpm'):
 -# VARDATND = x11tiles NetHack.ad pet_mark.xbm pilemark.xbm rip.xpm
 +VARDATND = x11tiles NetHack.ad pet_mark.xbm pilemark.xbm rip.xpm
- # for Atari/Gem
- # VARDATND = nh16.img title.img GEM_RSC.RSC rip.img
- # for BeOS
+ #	both X11 and Qt:
+ # VARDATND = x11tiles nhtiles.bmp NetHack.ad pet_mark.xbm pilemark.xbm rip.xpm
+ #	Qt without X11; assumes GRAPHIC_TOMBSTONE:
