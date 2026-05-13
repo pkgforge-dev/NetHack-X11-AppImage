@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Nethack (X11)
+GenericName=Nethack
+Type=Application
+Exec=nethack
+Icon=nethack-x11
+Terminal=false
+StartupWMClass=
+StartupNotify=false
+Categories=Application;Game;RPG;
