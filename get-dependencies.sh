@@ -19,7 +19,7 @@ get-debloated-pkgs --add-common --prefer-nano
 mkdir -p ./AppDir/bin
 VERSION=5.0.0
 wget https://github.com/NetHack/NetHack/archive/refs/tags/NetHack-${VERSION}_Released.tar.gz
-tar -xvf ./*.tar.gz
+tar -xf ./*.tar.gz
 rm -f ./*.tar.gz
 cd NetHack-NetHack-${VERSION}_Released
 patch -Np1 -i ../nethack-x11.patch
