@@ -10,16 +10,16 @@ index e266ad0..cf7f9e5 100644
 +#define X11_GRAPHICS         /* X11 interface */
  /* #define QT_GRAPHICS */    /* Qt interface */
  /* #define MSWIN_GRAPHICS */ /* Windows NT, CE, Graphics */
- 
+
 @@ -131,7 +131,7 @@
- 
+
  #ifdef TTY_GRAPHICS
  #ifndef DEFAULT_WINDOW_SYS
 -#define DEFAULT_WINDOW_SYS "tty"
 +#define DEFAULT_WINDOW_SYS "X11"
  #endif
  #endif
- 
+
 @@ -158,7 +158,7 @@
   *  xpmtoppm <x11tiles.xpm | pnmscale 1.25 | ppmquant 90 | \
   *      ppmtoxpm >x11tiles_big.xpm
@@ -35,7 +35,7 @@ index e266ad0..cf7f9e5 100644
   */
 -/* #define DLB */ /* not supported on all platforms */
 +#define DLB  /* not supported on all platforms */
- 
+
  /*
   *      Defining REPRODUCIBLE_BUILD causes 'util/makedefs -v' to construct
 @@ -444,7 +444,7 @@
@@ -45,7 +45,7 @@ index e266ad0..cf7f9e5 100644
 -#define HACKDIR "/usr/games/lib/nethackdir"
 +#define HACKDIR "."
  #endif
- 
+
  /*
 @@ -454,7 +454,7 @@
   * since the user might create files in a directory of his choice.
@@ -53,14 +53,14 @@ index e266ad0..cf7f9e5 100644
   */
 -/* #define SECURE */ /* do setuid(getuid()) after chdir() */
 +#define SECURE  /* do setuid(getuid()) after chdir() */
- 
+
  /*
   * If it is desirable to limit the number of people that can play Hack
 diff --git a/include/unixconf.h b/include/unixconf.h
 index e7ee915..7f93304 100644
 --- a/include/unixconf.h
 +++ b/include/unixconf.h
-@@ -89,9 +89,9 @@
+@@ -89,9 +89,10 @@
  /*
   * If you want the static parts of your playground on a read-only file
   * system, define VAR_PLAYGROUND to be where the variable parts are kept.
@@ -68,10 +68,10 @@ index e7ee915..7f93304 100644
   */
 -/* #define VAR_PLAYGROUND "/var/lib/games/nethack" */
 +#define VAR_PLAYGROUND ".nethack"
- 
+
  /*
   *  NetHack can be compiled with support for a fine grained timer
-@@ -112,7 +112,7 @@
+@@ -112,7 +113,7 @@
   * "extra output" method is used, but not all systems provide access to
   * a fine-grained timer.
   */
