@@ -19,9 +19,17 @@ quick-sharun ./AppDir/bin
 # Fix: NetHack's HACKDIR is "." (current directory), so sharun
 # must cd to $APPDIR/bin (where data files are) before launching.
 # SHARUN_WORKING_DIR tells the sharun binary to chdir there first.
+<<<<<<< HEAD
 # NETHACKDIR is deliberately NOT set here to activate VAR_PLAYGROUND
 # in chdirx(), which redirects writable files to $HOME/.nethack.
 echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}/bin' >> ./AppDir/.env
+=======
+# NETHACKDIR is a runtime override NetHack honors for HACKDIR.
+{
+    echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}/bin'
+    echo 'NETHACKDIR=${SHARUN_DIR}/bin'
+} >> ./AppDir/.env
+>>>>>>> 2f9b92b950f38f9ac65061088889543afb24405b
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
