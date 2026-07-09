@@ -57,9 +57,20 @@ index e266ad0..cf7f9e5 100644
  /*
   * If it is desirable to limit the number of people that can play Hack
 diff --git a/include/unixconf.h b/include/unixconf.h
-index e7ee915..ef84495 100644
+index e7ee915..7f93304 100644
 --- a/include/unixconf.h
 +++ b/include/unixconf.h
+@@ -89,9 +89,9 @@
+ /*
+  * If you want the static parts of your playground on a read-only file
+  * system, define VAR_PLAYGROUND to be where the variable parts are kept.
++ * (Relative paths are resolved under $HOME at runtime.)
+  */
+-/* #define VAR_PLAYGROUND "/var/lib/games/nethack" */
++#define VAR_PLAYGROUND ".nethack"
+ 
+ /*
+  *  NetHack can be compiled with support for a fine grained timer
 @@ -112,7 +112,7 @@
   * "extra output" method is used, but not all systems provide access to
   * a fine-grained timer.
@@ -69,6 +80,45 @@ index e7ee915..ef84495 100644
  #endif
  #if defined(MACOS) && !defined(TIMED_DELAY)
  #define TIMED_DELAY
+diff --git a/sys/unix/unixmain.c b/sys/unix/unixmain.c
+--- a/sys/unix/unixmain.c
++++ b/sys/unix/unixmain.c
+@@ -228,13 +228,38 @@ chdirx(const char *dir, boolean wr)
+         */
+ #ifdef VAR_PLAYGROUND
+-        int len = strlen(VAR_PLAYGROUND);
+-
+-        /* FIXME: this allocation never gets freed.
++        const char *home;
++        int len;
++
++        /*
++         * If VAR_PLAYGROUND is a relative path (starts with '.'),
++         * resolve it under $HOME so that writable files go to a
++         * writable location when running from a read-only mount.
+          */
+-        gf.fqn_prefix[SCOREPREFIX] = (char *) alloc(len + 2);
+-        Strcpy(gf.fqn_prefix[SCOREPREFIX], VAR_PLAYGROUND);
++        if (VAR_PLAYGROUND[0] != '/'
++            && (home = nh_getenv("HOME")) != NULL) {
++            len = strlen(home) + 1 + strlen(VAR_PLAYGROUND);
++            gf.fqn_prefix[SCOREPREFIX] = (char *) alloc(len + 2);
++            Strcpy(gf.fqn_prefix[SCOREPREFIX], home);
++            Strcat(gf.fqn_prefix[SCOREPREFIX], "/");
++            Strcat(gf.fqn_prefix[SCOREPREFIX], VAR_PLAYGROUND);
++            len = strlen(gf.fqn_prefix[SCOREPREFIX]);
++            (void) mkdir(gf.fqn_prefix[SCOREPREFIX], 0755);
++        } else {
++            len = strlen(VAR_PLAYGROUND);
++            /* FIXME: this allocation never gets freed. */
++            gf.fqn_prefix[SCOREPREFIX] = (char *) alloc(len + 2);
++            Strcpy(gf.fqn_prefix[SCOREPREFIX], VAR_PLAYGROUND);
++        }
+        if (gf.fqn_prefix[SCOREPREFIX][len - 1] != '/') {
+            gf.fqn_prefix[SCOREPREFIX][len] = '/';
+            gf.fqn_prefix[SCOREPREFIX][len + 1] = '\0';
+        }
+ #endif
 diff --git a/src/invent.c b/src/invent.c
 index 4468595..bf4b00e 100644
 --- a/src/invent.c
