@@ -43,7 +43,7 @@ index e266ad0..cf7f9e5 100644
   */
  #ifndef HACKDIR
 -#define HACKDIR "/usr/games/lib/nethackdir"
-+#define HACKDIR "$APPDIR/bin"
++#define HACKDIR "."
  #endif
  
  /*
