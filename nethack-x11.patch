@@ -1,6 +1,6 @@
 diff --git a/include/config.h b/include/config.h
 --- a/include/config.h	2026-05-02 13:47:25.000000000 -0300
-+++ b/include/config.h	2026-07-09 10:31:20.189743844 -0300
++++ b/include/config.h	2026-07-09 10:39:41.921869356 -0300
 @@ -56,7 +56,7 @@
  #define TTY_GRAPHICS /* good old tty-based graphics */
  #endif
@@ -57,7 +57,7 @@ diff --git a/include/config.h b/include/config.h
   * If it is desirable to limit the number of people that can play Hack
 diff --git a/include/unixconf.h b/include/unixconf.h
 --- a/include/unixconf.h	2026-05-02 13:47:25.000000000 -0300
-+++ b/include/unixconf.h	2026-07-09 10:31:20.189899097 -0300
++++ b/include/unixconf.h	2026-07-09 10:39:41.922011103 -0300
 @@ -82,8 +82,9 @@
  /*
   * If you want the static parts of your playground on a read-only file
@@ -80,7 +80,7 @@ diff --git a/include/unixconf.h b/include/unixconf.h
  #define TIMED_DELAY
 diff --git a/src/invent.c b/src/invent.c
 --- a/src/invent.c	2026-05-02 13:47:25.000000000 -0300
-+++ b/src/invent.c	2026-07-09 10:31:20.191487030 -0300
++++ b/src/invent.c	2026-07-09 10:39:41.923001882 -0300
 @@ -4296,6 +4296,7 @@
                  picked_some ? "Other things" : "Things",
                  Blind ? "you feel" : "are");
@@ -91,7 +91,7 @@ diff --git a/src/invent.c b/src/invent.c
                  felt_cockatrice = TRUE;
 diff --git a/sys/unix/Makefile.src b/sys/unix/Makefile.src
 --- a/sys/unix/Makefile.src	2026-05-02 13:47:25.000000000 -0300
-+++ b/sys/unix/Makefile.src	2026-07-09 10:31:20.191724277 -0300
++++ b/sys/unix/Makefile.src	2026-07-09 10:39:41.923852273 -0300
 @@ -318,8 +318,8 @@
  #	$(TARGETPFX)tile.o
  #
@@ -131,7 +131,7 @@ diff --git a/sys/unix/Makefile.src b/sys/unix/Makefile.src
  #WINLIB = $(WINCURSESLIB)
 diff --git a/sys/unix/Makefile.top b/sys/unix/Makefile.top
 --- a/sys/unix/Makefile.top	2026-05-02 13:47:25.000000000 -0300
-+++ b/sys/unix/Makefile.top	2026-07-09 10:31:20.191759553 -0300
++++ b/sys/unix/Makefile.top	2026-07-09 10:39:41.923890755 -0300
 @@ -61,7 +61,7 @@
  #	X11 without Qt:
  # VARDATND = x11tiles NetHack.ad pet_mark.xbm pilemark.xbm
@@ -143,8 +143,17 @@ diff --git a/sys/unix/Makefile.top b/sys/unix/Makefile.top
  #	Qt without X11; assumes GRAPHIC_TOMBSTONE:
 diff --git a/sys/unix/unixmain.c b/sys/unix/unixmain.c
 --- a/sys/unix/unixmain.c	2026-05-02 13:47:25.000000000 -0300
-+++ b/sys/unix/unixmain.c	2026-07-09 10:31:20.190360526 -0300
-@@ -504,12 +504,16 @@
++++ b/sys/unix/unixmain.c	2026-07-09 10:40:32.446474766 -0300
+@@ -7,6 +7,8 @@
+ 
+ #include "hack.h"
+ #include "dlb.h"
++#include <errno.h>
++#include <stdio.h>
+ 
+ #include <sys/stat.h>
+ #include <signal.h>
+@@ -504,12 +506,21 @@
           * system's layout is being used.
           */
  #ifdef VAR_PLAYGROUND
@@ -157,7 +166,12 @@ diff --git a/sys/unix/unixmain.c b/sys/unix/unixmain.c
 +        const char *usr = nh_getenv("USER");
 +        if (!usr || !*usr) usr = "nethack";
 +        Sprintf(pbuf, "/tmp/.nethack-%s", usr);
-+        (void) mkdir(pbuf, 0755);
++        if (mkdir(pbuf, 0755) < 0) {
++            /* debug: show why mkdir failed */
++            write(2, pbuf, strlen(pbuf));
++            write(2, ": mkdir: ", 9);
++            { char eb[64]; Sprintf(eb, "errno=%d\n", errno); write(2, eb, strlen(eb)); }
++        }
 +        len = strlen(pbuf);
          gf.fqn_prefix[SCOREPREFIX] = (char *) alloc(len + 2);
 -        Strcpy(gf.fqn_prefix[SCOREPREFIX], VAR_PLAYGROUND);
