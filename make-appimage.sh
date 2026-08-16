@@ -3,24 +3,15 @@
 set -eu
 
 ARCH=$(uname -m)
-VERSION=5.0.0
-export ARCH VERSION
+export ARCH
 export OUTPATH=./dist
 export ADD_HOOKS="self-updater.hook"
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
-export STARTUPWMCLASS=
-export ALWAYS_SOFTWARE=1
+export APPNAME=NetHack-X11
+export USE_HOST_DRIVERS_EXPERIMENTAL=1
 
 # Deploy dependencies
-quick-sharun ./AppDir/bin
-
-# Additional changes can be done in between here
-
-# Fix: NetHack's HACKDIR is "." (current directory), so sharun
-# must cd to $APPDIR/bin (where data files are) before launching.
-# SHARUN_WORKING_DIR tells the sharun binary to chdir there first.
-# NETHACKDIR is deliberately NOT set here to activate VAR_PLAYGROUND
-# in chdirx(), which redirects writable files to $HOME/.nethack.
+quick-sharun ./AppDir/bin/* /usr/bin/xlsfonts /usr/bin/xset
 echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}/bin' >> ./AppDir/.env
 
 # Turn AppDir into AppImage
