@@ -6,7 +6,7 @@ ARCH=$(uname -m)
 
 echo "Installing package dependencies..."
 echo "---------------------------------------------------------------"
-pacman -Syu --noconfirm libxaw lua54 setconf
+pacman -Syu --noconfirm libxaw lua54 setconf xorg-xlsfonts
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"
@@ -25,6 +25,6 @@ cd sys/unix
 ./setup.sh
 cd ../..
 make fetch-lua
-patch -Np1 -i ../2ndpatch.patch
 make -j1 # Multi-threaded builds fail
+cp sys/unix/sysconf dat/sysconf
 mv -v src/nethack dat/* ../AppDir/bin
