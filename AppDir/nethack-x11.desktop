@@ -5,6 +5,6 @@ Type=Application
 Exec=nethack
 Icon=nethack-x11
 Terminal=false
-StartupWMClass=
+StartupWMClass=NetHack
 StartupNotify=false
 Categories=Application;Game;RPG;
